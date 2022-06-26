@@ -43,8 +43,8 @@ def search_vacan(vacan: list, pincodes: str):
     return vacan
 
 def format_dict(dicts: dict):
-    good_dict = {'user_id': dicts['user_id'], 'company': dicts['company'], 'vacan': dicts['vacan'], 'number_phone': dicts['number_phone'],
-                'answer': dicts['answer'], 'question': dicts['question'], 'pincode': dicts['pincode'], 'user_name': dicts['user_name']}
+    good_dict = {'user_id': dicts['user_id'], 'company': dicts['company'], 'vacan': dicts['vacan'],
+                'answer': dicts['answer'], 'question': dicts['question'], 'pincode': dicts['pincode'], 'reg_info': dicts['reg_info']}
     return good_dict
 
 def keyboard_add_button(list_info: list, button: str = None):

@@ -31,11 +31,14 @@ def get_or_create_user(db, update):
 def save_anketa(db, anketa_data: dict):
     user = db.users.find_one({"user_id" : anketa_data['user_id']})
     anketa_data['time'] = datetime.now()
+    reg_info = anketa_data["reg_info"]
+    del anketa_data["reg_info"]
     del anketa_data['user_id']
     if not 'anketa' in user:
         db.users.update_one({'_id': user['_id']}, {'$set': {'anketa': [anketa_data]}})
     else:
         db.users.update_one({'_id': user['_id']}, {'$push': {'anketa': anketa_data}})
+    anketa_data['reg_info'] = reg_info
 
 def get_or_create_job(db, file):
     job = db.jobs.find_one({'company' : file['company']})

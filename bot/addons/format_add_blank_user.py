@@ -8,13 +8,16 @@ def create_word_file(result_anketa):
     #Создаем папку куда будут сохраняться документы о пользователях.
     os.makedirs('userfile', exist_ok=True)
     #Создаем название документа из имени пользователя и должности.
-    name_user = result_anketa['user_name'].strip()
+    name_user = result_anketa['reg_info']['user_name'].strip()
     position_user = (result_anketa['vacan'].replace('/', '_')).strip()
     name_file = f"{name_user}-{position_user}.docx"
     basedir = os.path.join('userfile', name_file)
+    result_anketa['reg_info']['company'] = result_anketa['company']
+    result_anketa['reg_info']['vacan'] = result_anketa['vacan']
     #Делаем словарь с линиями для заполнения
     #Ключи должны быть такие же как и в получаемом файле с информацией об анкетировании
-    dict_user_info = {'user_name': "ФИО", 'number_phone': "Номер телефона",
+    dict_user_info = {'user_name': "ФИО",'birth_date': "Дата рождения","location":"Город",
+                    "relocation":"Переезд","format_job":"Формат работы","salary":"Мин-макс зарплата", 'number_phone': "Номер телефона",
                     'company': "Компания", 'vacan': "Вакансия"}
     #Создаем файл
     #Выбираем шрифт и размер шрифта.
@@ -28,7 +31,7 @@ def create_word_file(result_anketa):
     #И так как ключи одинаковые с теми данными что мы получаем.
     #Будем вставлять один и тот же ключ в оба словаря.
     for key in dict_user_info:
-        doc.add_paragraph(f'{dict_user_info[key]}: {result_anketa[key]}')
+        doc.add_paragraph(f'{dict_user_info[key]}: {result_anketa["reg_info"].get(key, "-")}')
     #Результаты опроса
     doc.add_heading('Результаты опроса', 1)
     for num in range(1, len(result_anketa['answer'])+1):
@@ -40,5 +43,3 @@ def create_word_file(result_anketa):
     result_anketa['userfile'] = name_file
     save_anketa(db, result_anketa)
     email_scripts(result_anketa)
-    del result_anketa['user_name']
-    del result_anketa['number_phone']

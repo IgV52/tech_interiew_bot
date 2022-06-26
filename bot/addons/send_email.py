@@ -19,8 +19,8 @@ def email_scripts(result_anketa):
 	email_format_text(result_anketa)
 
 def email_format_text(info):
-	subject = f"Кандидат: {info['user_name']}"
-	text = f"Кандидат: {info['user_name']}, вакансия: {info['vacan']}"
+	subject = f"Кандидат: {info['reg_info']['user_name']}"
+	text = f"Кандидат: {info['reg_info']['user_name']}, вакансия: {info['vacan']}"
 	html = '<html><head></head><body><p>'+text+'</p></body></html>'
 	route = f"userfile/{info['userfile']}"
 	basename,filesize = email_format_route_file(route)

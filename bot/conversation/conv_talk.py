@@ -8,10 +8,9 @@ def start(update, context):
     info = user_info(db,update.effective_user.id)
     if info[0]:
         context.user_data['user_id'] = update.effective_user.id
-        context.user_data['user_name'] = info[1]['reg_info']['user_name']
-        context.user_data['number_phone'] = info[1]['reg_info']['number_phone']
+        context.user_data['reg_info'] = info[1]['reg_info']
         update.message.reply_text(
-        f"Привет\n{context.user_data['user_name']}\nНапишите пинкод",
+        f"Привет\n{context.user_data['reg_info']['user_name']}\nНапишите пинкод",
         reply_markup=keyboard_add_button(['Выход']))
         return 'company_vacan'
     reply_text = "Привет я БОТ для проведения интервью и cначала нам надо познакомиться, нажмите кнопку Регистрация"

@@ -7,4 +7,5 @@ services:
     volumes:
       - ./downloads:/downloads
       - ./userfile:/userfile
+      - ./:./bot.log
     command: python app.py
