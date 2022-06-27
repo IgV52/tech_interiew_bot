@@ -1,4 +1,3 @@
-from re import L
 from bot.utils import check_role
 from bot.conversation.utils import format_text, check_phone, key_quest, get_city, get_date, search_vacan, get_use_code, pincode
 from bot import constants
