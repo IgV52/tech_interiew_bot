@@ -2,7 +2,7 @@ from bot.addons.add_file import open_file_docx
 from bot import constants
 from bot import settings
 
-def check_role(user_id):
+def check_role(user_id: int):
     if str(user_id) in settings.ADMIN:
         return constants.ADMIN
     return constants.USER

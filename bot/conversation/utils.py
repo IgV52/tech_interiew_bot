@@ -13,7 +13,7 @@ def key_quest(dict_quest: dict):
 def get_date(date_usr: str):
     try:
         date_usr = datetime.strptime(date_usr, '%d.%m.%Y').date()
-    except ValueError:
+    except (ValueError, TypeError):
         return False
     if date_usr <= datetime.today().date():
         return True
@@ -21,12 +21,13 @@ def get_date(date_usr: str):
 
 def get_city(city: str):
     job = ('moscow', 'москва', 'мск')
-    city = (city.lower()).strip()
+    city = ((str(city)).lower()).strip()
     if city in job:
         return True
     return False
 
 def check_phone(phone: str):
+    phone = str(phone)
     format_phone = re.sub(r'\b\D', '', phone)
     clear_phone = re.sub(r'[\ \(]?', '', format_phone)
     if re.findall(r'^[\+7|8]*?\d{10}$', clear_phone) or re.match(r'^\w+[\.]?(\w+)*\@(\w+\.)*\w{2,}$',phone):
@@ -35,6 +36,7 @@ def check_phone(phone: str):
         return False 
 
 def pincode(pincode: str):
+    pincode = str(pincode)
     pincode = (pincode.strip()).split('-')
     return pincode
 
