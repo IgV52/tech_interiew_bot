@@ -1,13 +1,12 @@
 from telegram.ext import ConversationHandler
-from bot.database.db import db, get_or_create_user, reg_user, user_info
+from bot.database.db import db, get_or_create_user, reg_user
 from telegram import ParseMode
 from bot.conversation.utils import get_date, get_city, check_phone, keyboard_add_button
 
 def reg(update, context):
-    info = user_info(db,update.effective_user.id)
-    if info[0]:
+    user = get_or_create_user(db,update)
+    if user.get('reg_info', False):
         return ConversationHandler.END
-    get_or_create_user(db,update)
     update.message.reply_text("""Пожалуйста введите <b>ФИО</b>""", parse_mode = ParseMode.HTML)
     return 'fio'
 

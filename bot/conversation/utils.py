@@ -47,6 +47,12 @@ def format_dict(dicts: dict):
                 'answer': dicts['answer'], 'question': dicts['question'], 'pincode': dicts['pincode'], 'reg_info': dicts['reg_info']}
     return good_dict
 
+def get_use_code(user: dict, pincodes: str):
+    use_pincode = [pin['pincode'] for pin in user['anketa']]
+    if pincodes in use_pincode:
+        return True
+    return False
+
 def keyboard_add_button(list_info: list, button: str = None):
         keyboard = [[]]
         button = button

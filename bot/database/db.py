@@ -40,7 +40,9 @@ def save_anketa(db, anketa_data: dict):
         db.users.update_one({'_id': user['_id']}, {'$push': {'anketa': anketa_data}})
     anketa_data['reg_info'] = reg_info
 
-def get_or_create_job(db, file):
+def get_or_create_job(db, file: dict):
+    #Ищет в базе компанию по названию
+    #если не находит то создает и добавляет данные
     job = db.jobs.find_one({'company' : file['company']})
     if not job:
         job = {
@@ -49,8 +51,10 @@ def get_or_create_job(db, file):
             'vacancy' : [file['vacancy']]
             }
         db.jobs.insert_one(job)
+    #если находит то проверяет добавляемые вакансии по пинкоду
     else:
         use_pin = [pin['pincode'] for pin in job['vacancy']]
+        #если находит использованный пинкод то не добавляет вакансию
         if file['vacancy']['pincode'] in use_pin:
             return None
         db.jobs.update_one({'_id': job['_id']}, {'$push': {'vacancy': file['vacancy']}})
@@ -60,20 +64,8 @@ def info_vacan_in_company(db, pincodes: list):
     job = db.jobs.find_one({'pincode' : pincodes[0]})
     return job
 
-def user_profile(db, user_id: int, pincodes: str):
-    if db.users.find_one({'user_id': user_id, 'anketa.pincode': pincodes}):
-        return True
-    return False
-
 def check_company(db, company: str):
     company = db.jobs.find_one({'company': company})
-    print(company)
     if not company:
         return [False]
     return [True, company]
-
-def user_info(db, user_id: int):
-    user = db.users.find_one({'user_id': user_id})
-    if user.get('reg_info'):
-        return [True, user]
-    return [False]

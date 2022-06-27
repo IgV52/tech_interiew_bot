@@ -6,5 +6,5 @@ services:
     restart: unless-stopped
     volumes:
       - ./downloads:/downloads
-      - ./userfile:/userfile
+      - ../userfile:/userfile
     command: python app.py
