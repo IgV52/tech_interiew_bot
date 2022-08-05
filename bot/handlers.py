@@ -5,7 +5,7 @@ from bot.utils import info_format_file
 from bot.database.db import db, get_or_create_user
 
 def save_document(update, context):
-    user = get_or_create_user(db, update)
+    user = get_or_create_user(db, update.effective_user, update.message)
     update.message.reply_text('Обрабатываем фaйл')
     name_file = update.message.document.file_name
     file_name = os.path.join('downloads', name_file)

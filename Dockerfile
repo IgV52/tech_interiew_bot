@@ -5,6 +5,5 @@ COPY ./.env ./bot
 COPY ./app.py ./
 COPY ./requirements.txt ./bot
 RUN pip install -r ./bot/requirements.txt
-
-WORKDIR ./
+CMD ["python","app.py"]
 

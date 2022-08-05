@@ -7,7 +7,7 @@ from bot.conversation.utils import key_quest, format_text, pincode, search_vacan
 def start(update, context):
     #Добавляет пользователя или возврвщает
     #данные о нем если он уже есть в базе
-    user = get_or_create_user(db,update)
+    user = get_or_create_user(db,update.effective_user, update.message)
     context.user_data['user'] = user
     #Если у пользователя есть словарь с ключом "reg_info"
     #то просит ввести пинкод

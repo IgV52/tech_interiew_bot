@@ -3,3 +3,4 @@ python-dotenv==0.20.0
 python-telegram-bot==13.12
 pymongo[srv]==4.1.1
 pytest==7.1.2
+pytest-mongodb==2.2.0

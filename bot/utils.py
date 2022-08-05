@@ -1,6 +1,5 @@
 from bot.addons.add_file import open_file_docx
-from bot import constants
-from bot import settings
+from bot import constants, settings
 
 def check_role(user_id: int):
     if str(user_id) in settings.ADMIN:

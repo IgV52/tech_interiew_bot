@@ -22,14 +22,14 @@ def test_format_text():
 
 def test_get_city():
     job_city = ['Москва','Мск','Moscow','мск','мСк','МСК', 'МОСКВА', 'москВа']
-    other_city = ['арзамас', 435345345, 'asdsfsdf']
+    other_city = ['ароном', 435345345, 'asdsfsdf']
     for city in job_city:
         assert get_city(city) == True
     for city in other_city:
         assert get_city(city) == False
 
 def test_get_date():
-    date_true = '11.12.1993'
+    date_true = '15.11.1990'
     date_false = ['1212324','21121996','sdasdaf',324234324,11121993,'11/12/1993']
     assert get_date(date_true) == True
     for date in date_false:
@@ -53,21 +53,15 @@ def test_pincode():
     for index,pin in enumerate(pincod_false):
         assert pincode(pin) == answer_false[index]
 
-def test_search_vacan():
-    test_info = [{"slots": {"Perl Developer": {"1": "Проверка","2": "Проверка","3": "Проверка"}},
-            "date": {"$date": {"$numberLong": "1656107056666"}},"pincode": "005"},
-            {"slots": {"Дизайнер": {"1": "Проверка","2": "Проверка","3": "Проверка"}},
-            "date": {"$date": {"$numberLong": "1656107056666"}},"pincode": "008"}]
+def test_search_vacan(test_info):
     pincod_true = ['005', '008']
-    answer_true = [[{"Perl Developer": {"1": "Проверка","2": "Проверка","3": "Проверка"}}], 
-                    [{"Дизайнер": {"1": "Проверка","2": "Проверка","3": "Проверка"}}]]
     pincod_false = ['asdasda', '32r345']
     answer_false = []
     
     for index,pin in enumerate(pincod_true):
-        assert search_vacan(test_info, pin) == answer_true[index]
+        assert search_vacan(test_info['test_info'], pin) == test_info["answer_true"][index]
     for index,pin in enumerate(pincod_false):
-        assert search_vacan(test_info, pin) == answer_false
+        assert search_vacan(test_info["test_info"], pin) == answer_false
 
 def test_get_use_code():
     user = {'anketa':[{"pincode": "000-000"},{"pincode": "002-001"},{"pincode": "200-070"}]}

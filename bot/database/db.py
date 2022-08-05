@@ -10,20 +10,20 @@ def reg_user(db, data_user: dict):
     user = db.users.find_one({"user_id" : data_user['user_id']})
     del data_user['user_id']
     if not 'reg_info' in user:
-        db.users.update_one({'_id': user['_id']}, {'$set': {'reg_info': data_user}})
+        user = db.users.update_one({'_id': user['_id']}, {'$set': {'reg_info': data_user}})
     return user
 
-def get_or_create_user(db, update):
-    user = db.users.find_one({"user_id" : update.effective_user.id})
+def get_or_create_user(db, effective_user, message):
+    user = db.users.find_one({"user_id" : effective_user.id})
     if not user:
         user = {
-            "user_id" : update.effective_user.id,
-            "first_name" : update.effective_user.first_name,
-            "last_name" : update.effective_user.last_name,
-            "username" : update.effective_user.username,
-            "chat_id" : update.message.chat_id,
-            "date" : update.message.date,
-            "role" : check_role(update.effective_user.id)
+            "user_id" : effective_user.id,
+            "first_name" : effective_user.first_name,
+            "last_name" : effective_user.last_name,
+            "username" : effective_user.username,
+            "chat_id" : message.chat_id,
+            "date" : message.date,
+            "role" : check_role(effective_user.id)
         }
         db.users.insert_one(user)
     return user

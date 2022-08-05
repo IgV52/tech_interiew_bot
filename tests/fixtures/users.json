@@ -1,0 +1,15 @@
+[{
+  "_id": {
+    "$oid": "62b630253da53b6057931f61"
+  },
+  "user_id": 1212121,
+  "first_name": "Ivan",
+  "last_name": "Ivanov",
+  "username": "IvanIvanov",
+  "chat_id": 1385132422,
+  "date": {
+    "$date": {
+      "$numberLong": "1656107044000"
+    }
+  },
+  "role": "admin"}]
