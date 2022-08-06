@@ -4,7 +4,7 @@ from telegram import ParseMode
 from bot.conversation.utils import get_date, get_city, check_phone, keyboard_add_button
 
 def reg(update, context):
-    user = get_or_create_user(db,update)
+    user = get_or_create_user(db,update.effective_user, update.message)
     if user.get('reg_info', False):
         return ConversationHandler.END
     update.message.reply_text("""Пожалуйста введите <b>ФИО</b>""", parse_mode = ParseMode.HTML)
@@ -31,7 +31,6 @@ def birth_date(update, context):
         update.message.reply_text(
             """<b>Из какого вы города?</b>""", parse_mode = ParseMode.HTML)
         return 'location'
-
 
 def location(update, context):
     city = get_city(update.message.text)

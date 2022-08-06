@@ -6,11 +6,10 @@ def check_role(user_id: int):
         return constants.ADMIN
     return constants.USER
 
-def info_format_file(name_file):
+def info_format_file(name_file: str, company_pincode: list):
     format_file = (name_file.split('.')[-1])
-    name_vacan = (name_file.split('.')[0])
     if format_file == constants.FILE_DOCX:
-        text_msg = open_file_docx(name_file, name_vacan)  
+        text_msg = open_file_docx(name_file, company_pincode)  
     else:
         text_msg = 'Данные не загружены в базу'
     return text_msg

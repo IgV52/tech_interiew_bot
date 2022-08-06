@@ -8,9 +8,16 @@ db = client[settings.MONGO_DB] # MONGO_DB - название базы данны
 
 def reg_user(db, data_user: dict):
     user = db.users.find_one({"user_id" : data_user['user_id']})
-    del data_user['user_id']
     if not 'reg_info' in user:
-        user = db.users.update_one({'_id': user['_id']}, {'$set': {'reg_info': data_user}})
+        db.users.update_one({'_id': user['_id']}, {'$set': {'reg_info': {
+                            "user_name": data_user['user_name'],
+                            "birth_date": data_user['birth_date'],
+                            "location": data_user['location'],
+                            "relocation": data_user['relocation'],
+                            "format_job": data_user['format_job'],
+                            "salary": data_user['salary'],
+                            "number_phone": data_user['number_phone']
+                            }}})
     return user
 
 def get_or_create_user(db, effective_user, message):
@@ -24,21 +31,25 @@ def get_or_create_user(db, effective_user, message):
             "chat_id" : message.chat_id,
             "date" : message.date,
             "role" : check_role(effective_user.id)
-        }
+            }
         db.users.insert_one(user)
     return user
 
 def save_anketa(db, anketa_data: dict):
     user = db.users.find_one({"user_id" : anketa_data['user_id']})
-    anketa_data['time'] = datetime.now()
-    reg_info = anketa_data["reg_info"]
-    del anketa_data["reg_info"]
-    del anketa_data['user_id']
+    add_anketa = {
+                "company": anketa_data['company'],
+                "vacan": anketa_data['vacan'],
+                "answer": anketa_data['answer'],
+                "question": anketa_data['question'],
+                "pincode": anketa_data['pincode'],
+                "userfile": anketa_data['userfile'],
+                "time": datetime.now()
+                }
     if not 'anketa' in user:
-        db.users.update_one({'_id': user['_id']}, {'$set': {'anketa': [anketa_data]}})
+        db.users.update_one({'_id': user['_id']}, {'$set': {'anketa': [add_anketa]}})
     else:
-        db.users.update_one({'_id': user['_id']}, {'$push': {'anketa': anketa_data}})
-    anketa_data['reg_info'] = reg_info
+        db.users.update_one({'_id': user['_id']}, {'$push': {'anketa': add_anketa}})
 
 def get_or_create_job(db, file: dict):
     #Ищет в базе компанию по названию
