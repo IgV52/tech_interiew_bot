@@ -37,7 +37,7 @@ def open_file_docx(name_file: str, company_pincode: list):
         text_msg = add_quest_vacan_slot(dict_quest, company_pincode)
     except UnboundLocalError as err:
         text_msg = 'Вы забыли поставить метку около вакансии "*"'
-        logging.error(f'Ошибка {err} | from open_console_file')
+        logging.error(f'Ошибка {err} | from add_file')
     return text_msg
 
 def add_quest_vacan_slot(info: dict, company_pincode: list):

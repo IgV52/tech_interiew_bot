@@ -13,7 +13,6 @@ def message():
 @pytest.fixture
 def reg_info():
     return {
-    "user_id": 1212121,
     "user_name": "Иванов Иван Иванович",
     "birth_date": "14.11.1986",
     "location": "Каманут",
@@ -26,7 +25,6 @@ def reg_info():
 @pytest.fixture
 def anketa_data():
     return {
-        "user_id": 1212121,
         "company": "AO ASD",
         "vacan": "Proty",
         "answer": {"1": "q", "2": "w", "3": "e"},
@@ -43,3 +41,18 @@ def test_info():
             "date": {"$date": {"$numberLong": "1656107056666"}},"pincode": "008"}],
             "answer_true": [[{"Perl Developer": {"1": "Проверка","2": "Проверка","3": "Проверка"}}], 
                     [{"Дизайнер": {"1": "Проверка","2": "Проверка","3": "Проверка"}}]]}
+
+@pytest.fixture
+def file_vacancy():
+    return {
+            'company' : "АльфаБанк",
+            'pincode': "001",
+            'vacancy' : {
+                "slots":{"Системный Аналитик": {
+                    "1": "Проверка",
+                    "2": "Проверка",
+                    "3": "Проверка"
+                }},
+                "date": "1656107056666",
+                "pincode": "000"
+            }}

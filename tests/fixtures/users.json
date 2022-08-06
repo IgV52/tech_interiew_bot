@@ -12,4 +12,28 @@
       "$numberLong": "1656107044000"
     }
   },
-  "role": "admin"}]
+  "role": "admin",
+  "anketa": [{"company": "AO ASD",
+            "vacan": "Proty",
+            "answer": {"1": "q", "2": "w", "3": "e"},
+            "question": {"1": "who?", "2": "try", "3": "qwerty"},
+            "pincode": "001-000",
+            "userfile": "File.docx",
+			"time": {"$date": {
+				"$numberLong": "1656107044000"
+			  }}}]},
+{
+	"_id": {
+		"$oid": "62b630253da53b6057931f69"
+	},
+	"user_id": 12121213,
+	"first_name": "Ivan",
+	"last_name": "Ivanov",
+	"username": "IvanIvanov",
+	"chat_id": 1385132422,
+	"date": {
+		"$date": {
+		"$numberLong": "1656107044000"
+		}
+	},
+	"role": "admin"}]
