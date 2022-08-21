@@ -24,49 +24,43 @@ def start(update, context):
     return ConversationHandler.END
 
 def company_vacan(update, context):
-    user_data = context.user_data
-    msg = update.message.text
-    user_data['pincode'] = msg.strip()
-    pincodes = pincode(msg)
+    context.user_data['pincode'] = update.message.text.strip()
+    pincodes = pincode(update.message.text)
     #Проверяет использовал этот пинкод пользователь или нет
     #если пинкод уже им был использован, то возвращает в начало
     #если нет, то присылает анкету с вопросами
-    if get_use_code(context.user_data['user'], msg):
+    if get_use_code(context.user_data['user'], update.message.text):
         update.message.reply_text("Вы уже проходили это",
         reply_markup=keyboard_add_button(['Выход']))
         return 'company_vacan'
     else:
-        user_data['info'] = info_vacan_in_company(db, pincodes)
-        if user_data['info'] == None:
+        context.user_data['info'] = info_vacan_in_company(db, pincodes)
+        if context.user_data['info'] == None:
             update.message.reply_text("Ничего не найдено",
         reply_markup=keyboard_add_button(['Выход']))
             return 'company_vacan'
         #Создание словарей с нужными данными в памяти бота для пользователя
-        user_data['company'] = user_data['info']['company']
-        user_data['vacan_list'] = (search_vacan(user_data['info']['vacancy'], pincodes[1]))[0]
-        user_data['vacan'] = ([key for key in (user_data['vacan_list']).keys()])[0]
-        user_data['answer'] = dict()
-        user_data['question'] = user_data['vacan_list'][user_data['vacan']]
-        user_data['num'] = key_quest(user_data['question'])
-        update.message.reply_text(f"Информация о правилах опроса, если вы готовы отправте боту любое сообщение",
-        reply_markup=ReplyKeyboardRemove())
+        context.user_data['company'] = context.user_data['info']['company']
+        context.user_data['vacan_list'] = (search_vacan(context.user_data['info']['vacancy'], pincodes[1]))[0]
+        context.user_data['vacan'] = ([key for key in (context.user_data['vacan_list']).keys()])[0]
+        context.user_data['answer'] = dict()
+        context.user_data['question'] = context.user_data['vacan_list'][context.user_data['vacan']]
+        context.user_data['num'] = key_quest(context.user_data['question'])
+        update.message.reply_text(format_text(context.user_data['question'],context.user_data['num'][0]), 
+                            parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
         return 'quest'
 
 def quest(update, context):
-    user_data = context.user_data
-    question = user_data['question']
-    msg = update.message.text
-    reply_text = update.message.reply_text
-    if len(user_data['num']) == 0:
-        data_good = format_dict(user_data)
-        reply_text("Спасибо за ответы", reply_markup=ReplyKeyboardRemove())
+    context.user_data['answer'][context.user_data['num'][0]] = update.message.text
+    context.user_data['num'] = context.user_data['num'][1:]
+    if len(context.user_data['num']) == 0:
+        data_good = format_dict(context.user_data)
+        update.message.reply_text("Спасибо за ответы", reply_markup=ReplyKeyboardRemove())
         #Создание файла с анкетой и отправка ее на почту
         create_word_file(data_good)
         return ConversationHandler.END
-    user_data["num_question"] = user_data['num'][0]
-    user_data['num'] = user_data['num'][1:]
-    user_data['answer'][user_data["num_question"]] = msg
-    reply_text(format_text(question,user_data["num_question"]), parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(format_text(context.user_data['question'],context.user_data['num'][0]), 
+                            parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
     return 'quest'
 
 def end_talk(update, context):
