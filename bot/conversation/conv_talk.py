@@ -46,7 +46,6 @@ def company_vacan(update, context):
         user_data['vacan_list'] = (search_vacan(user_data['info']['vacancy'], pincodes[1]))[0]
         user_data['vacan'] = ([key for key in (user_data['vacan_list']).keys()])[0]
         user_data['answer'] = dict()
-        user_data['start'] = ['start']
         user_data['question'] = user_data['vacan_list'][user_data['vacan']]
         user_data['num'] = key_quest(user_data['question'])
         update.message.reply_text(f"Информация о правилах опроса, если вы готовы отправте боту любое сообщение",
@@ -58,21 +57,17 @@ def quest(update, context):
     question = user_data['question']
     msg = update.message.text
     reply_text = update.message.reply_text
-    if 'start' in user_data:
-        del user_data['start']
-        reply_text(format_text(question,user_data['num'][0]), parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
-        return 'quest'
-    else:
-        user_data['answer'][user_data['num'][0]] = msg
-        del user_data['num'][0]
-        if not user_data['num']:
-            data_good = format_dict(user_data)
-            reply_text("Спасибо за ответы", reply_markup=ReplyKeyboardRemove())
-            #Создание файла с анкетой и отправка ее на почту
-            create_word_file(data_good)
-            return ConversationHandler.END
-        reply_text(format_text(question,user_data['num'][0]), parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
-        return 'quest'
+    if len(user_data['num']) == 0:
+        data_good = format_dict(user_data)
+        reply_text("Спасибо за ответы", reply_markup=ReplyKeyboardRemove())
+        #Создание файла с анкетой и отправка ее на почту
+        create_word_file(data_good)
+        return ConversationHandler.END
+    user_data["num_question"] = user_data['num'][0]
+    user_data['num'] = user_data['num'][1:]
+    user_data['answer'][user_data["num_question"]] = msg
+    reply_text(format_text(question,user_data["num_question"]), parse_mode=ParseMode.HTML, reply_markup=ReplyKeyboardRemove())
+    return 'quest'
 
 def end_talk(update, context):
     update.message.reply_text('Вы завершили беседу')
