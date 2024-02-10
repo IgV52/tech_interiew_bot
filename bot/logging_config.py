@@ -5,7 +5,8 @@ LOGGING_CONFIG = {
     "disable_existing_loggers": False,
     "formatters": {
         "default": {
-            "format": "%(asctime)s:%(name)s:%(process)d[LINE]:%(lineno)d " "%(levelname)s %(message)s",
+            "format": "%(asctime)s:%(name)s:%(process)d[LINE]:%(lineno)d "
+            "%(levelname)s %(message)s",
             "datefmt": "[DATE]%d.%m.%Y[TIME]%H:%M:%S",
         },
         "simple": {

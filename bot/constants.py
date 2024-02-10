@@ -1,5 +1,5 @@
-USER = 'users'
-ADMIN = 'admin'
+USER = "users"
+ADMIN = "admin"
 
-FILE_DOCX = 'docx'
-FILE_TXT = 'txt'
+FILE_DOCX = "docx"
+FILE_TXT = "txt"
