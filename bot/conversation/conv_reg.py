@@ -230,7 +230,10 @@ def number_phone(update, context):
 
     if not check:
         context.user_data["msg_bot"].edit_text(
-            """<b>Неправильно набран номер</b>""",
+            """
+            <b>Неправильно набран номер</b>
+            Напишите свой номер телефона в формате <b>+7</b>
+            """,
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="Выход", callback_data="stop")]]

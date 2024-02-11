@@ -5,7 +5,7 @@ import re
 
 def format_text(question: dict, num: str):
     user_text = f"""<b>Вопрос № {num}:</b>\n {question[num]}"""
-    return user_text
+    return user_text.replace("\\n", "\n")
 
 
 def key_quest(dict_quest: dict):

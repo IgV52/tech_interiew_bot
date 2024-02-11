@@ -26,7 +26,7 @@ from bot.conversation.conv_talk import (
 )
 
 conv_talk = ConversationHandler(
-    conversation_timeout=30 * 60,
+    conversation_timeout=50 * 60,
     entry_points=[CommandHandler("start", start)],
     states={
         "company_vacan": [
@@ -44,7 +44,7 @@ conv_talk = ConversationHandler(
 )
 
 conv_reg = ConversationHandler(
-    conversation_timeout=10 * 60,
+    conversation_timeout=20 * 60,
     entry_points=[
         MessageHandler(Filters.regex("^(Регистрация)$"), reg),
         CommandHandler("reg", reg),
