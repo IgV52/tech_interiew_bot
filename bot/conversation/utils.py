@@ -67,7 +67,7 @@ def format_dict(dicts: dict):
 
 
 def get_use_code(user: dict, pincodes: str):
-    use_pincode = [pin["pincode"] for pin in user.get("anketa", [])]
+    use_pincode = [pin["pincode"] for pin in user.get("anketa", []) if pin]
     if pincodes in use_pincode:
         return True
     return False
