@@ -56,13 +56,17 @@ def fio(update, context):
     update.message.delete()
 
     if len(answer.split()) < 3:
-        context.user_data["msg_bot"].edit_text(
-            """Пожалуйста введите <b>ФИО</b>""",
-            parse_mode=ParseMode.HTML,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Выход", callback_data="stop")]]
-            ),
-        )
+        try:
+            context.user_data["msg_bot"].edit_text(
+                f"Пожалуйста введите в формате <b>ФИО</b>\nВы ввели {answer}",
+                parse_mode=ParseMode.HTML,
+                reply_markup=InlineKeyboardMarkup(
+                    [[InlineKeyboardButton(text="Выход", callback_data="stop")]]
+                ),
+            )
+        except Exception as exp:
+            print(exp)
+            pass
     else:
         context.user_data["user_name"] = answer
         context.user_data["msg_bot"].edit_text(

@@ -4,7 +4,6 @@ from datetime import datetime
 from bot import settings
 
 client = MongoClient(settings.MONGO_LINK)
-print(settings.MONGO_DB, 3423423234)
 db = client[settings.MONGO_DB]  # MONGO_DB - название базы данных
 
 
@@ -19,7 +18,7 @@ def reg_user(db, data_user: dict):
                         "user_name": data_user["user_name"],
                         "birth_date": data_user["birth_date"],
                         "location": data_user["location"],
-                        "relocation": data_user["relocation"],
+                        "relocation": data_user.get("relocation", "---"),
                         "format_job": data_user["format_job"],
                         "salary": data_user["salary"],
                         "number_phone": data_user["number_phone"],
