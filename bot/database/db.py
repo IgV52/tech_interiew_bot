@@ -97,7 +97,7 @@ def get_all_pincode(db):
                     {
                         "company": item["company"],
                         "pincode": item["pincode"],
-                        "vacancy": "\n".join(
+                        "vacancy": "; ".join(
                             f'pincode - {i["pincode"]}, vacancy_name - {list(i["slots"])[0]}'
                             for i in item["vacancy"]
                         ),

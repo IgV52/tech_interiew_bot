@@ -1,5 +1,6 @@
 import os
 from bot import constants
+from telegram import ParseMode
 
 from bot.utils import info_format_file
 from bot.database.db import db, get_or_create_user, get_all_pincode
@@ -25,6 +26,6 @@ def get_all_company_pincode(update, context):
     user = get_or_create_user(db, update.effective_user, update.message)
 
     if user["role"] == constants.ADMIN:
-        update.message.reply_text(f"Администратор, {get_all_pincode(db)}")
+        update.message.reply_text(f"Администратор, \n{get_all_pincode(db)}", parse_mode=ParseMode.HTML)
     else:
         update.message.reply_text("Ошибка доступа")

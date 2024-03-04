@@ -45,15 +45,15 @@ def open_file_docx(name_file: str, company_pincode: list):
 
 
 def excel_read_blank(path: str, company_pincode: list[str]):
-    vacan_name = path.split("_")[-1][:-5]
+    path_chain = path.split("_")
     dict_quest = {
         "date": datetime.datetime.now(),
-        "pincode": vacan_name[-2],
+        "pincode": path_chain[-2],
         "slots": {},
     }
     base_path = os.path.join("downloads", path)
     workbook = openpyxl.load_workbook(base_path)
-    dict_quest["slots"][vacan_name] = {
+    dict_quest["slots"][path_chain[-1][:-5]] = {
         str(indx + 1): str(row[0].value or "").replace(";", "\\\\n")
         for indx, row in enumerate(workbook.active)
         if row[0].value
