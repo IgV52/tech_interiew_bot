@@ -1,9 +1,11 @@
 import os
 import logging
 from docx import Document
+from openpyxl import workbook
 from bot.database import db
 
 import datetime
+import openpyxl
 
 
 # Открывает документ который лежит в папке donwloads
@@ -42,6 +44,24 @@ def open_file_docx(name_file: str, company_pincode: list):
     return text_msg
 
 
+def excel_read_blank(path: str, company_pincode: list[str]):
+    vacan_name = path.split("_")[-1][:-5]
+    dict_quest = {
+        "date": datetime.datetime.now(),
+        "pincode": vacan_name[-2],
+        "slots": {},
+    }
+    base_path = os.path.join("downloads", path)
+    workbook = openpyxl.load_workbook(base_path)
+    dict_quest["slots"][vacan_name] = {
+        str(indx + 1): str(row[0].value or "").replace(";", "\\\\n")
+        for indx, row in enumerate(workbook.active)
+        if row[0].value
+    }
+    text_msg = add_quest_vacan_slot(dict_quest, company_pincode)
+    return text_msg
+
+
 def add_quest_vacan_slot(info: dict, company_pincode: list):
     format_add_db_dict = create_dict_db(company_pincode, info)
     # Добавляет данные в базу или нет если есть совпадение по пинкоду
@@ -55,7 +75,7 @@ def add_quest_vacan_slot(info: dict, company_pincode: list):
 def create_dict_db(company_pincode: list, blank: dict):
     db_dict = {
         "company": company_pincode[0],
-        "pincode": company_pincode[1],
         "vacancy": blank,
+        "pincode": company_pincode[1], 
     }
     return db_dict

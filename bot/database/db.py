@@ -84,6 +84,29 @@ def get_or_create_job(db, file: dict):
     return job
 
 
+def get_all_pincode(db):
+    res = []
+    for item in list(
+        db.jobs.find(
+            {}, {"company": 1, "pincode": 1, "vacancy": {"pincode": 1, "slots": 1}}
+        )
+    ):
+        if "pincode" in item:
+            res.append(
+                str(
+                    {
+                        "company": item["company"],
+                        "pincode": item["pincode"],
+                        "vacancy": "\n".join(
+                            f'pincode - {i["pincode"]}, vacancy_name - {list(i["slots"])[0]}'
+                            for i in item["vacancy"]
+                        ),
+                    }
+                )
+            )
+    return "\n".join(res)
+
+
 def info_vacan_in_company(db, pincodes: list):
     job = db.jobs.find_one({"pincode": pincodes[0]})
     return job
